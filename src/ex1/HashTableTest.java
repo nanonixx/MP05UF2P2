@@ -8,58 +8,71 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HashTableTest {
 
-    @org.junit.jupiter.api.Test
-    void count() {
-        HashTable ht = new HashTable();
+    @ParameterizedTest
+    @CsvSource({"0", "1", "2", "15"})
+    void count(int n) {
 
-        Assertions.assertEquals(0, ht.count());
+        HashTable ht = new HashTable();
+        for (int i = 0; i < n; i++) {
+            ht.put("key"+i, "value"+i);
+        }
+
+        System.out.println(ht.toString());
+
+        Assertions.assertEquals(n, ht.count());
 
     }
 
     @org.junit.jupiter.api.Test
     void size() {
         HashTable ht = new HashTable();
+//      pues da 16
+        for (int i = 0; i < 30; i++) {
+            ht.put("key"+i, "value"+i);
+        }
 
+        System.out.println(ht.toString());
         Assertions.assertEquals(16, ht.size());
     }
 
     @ParameterizedTest
-    @CsvSource({"1", "3", "10"})
-    void put(int n) {
+    @CsvSource({"key1, value1", "key2, value2", "key3, value3"})
+    void put(String key, String value) {
         HashTable ht = new HashTable();
+        ht.put("key1", "value");
 
-        for (int i = 0; i < n; i++) {
-            ht.put("key1", "value"+i);
-            ht.put("key1", "value"+i);
-        }
+        ht.put(key, value);
+        Assertions.assertEquals(value, ht.get(key));
+        //no se sustituye cuando
+        System.out.println(ht.toString());
 
 
-        String toString = "\n bucket["+ (n) +"] = ";
-        for (int i = 0; i < n; i++) {
-            toString = toString + "[key1, value" + i + "] -> [key1, value" + i + "]";
-        }
-
-        Assertions.assertEquals(toString, ht.toString());
     }
 
-    @org.junit.jupiter.api.Test
-    void get() {
+    @ParameterizedTest
+    @CsvSource({"key, value", "key1, value1", "key2, value"})
+    void get(String key, String value) {
         HashTable ht = new HashTable();
 
-        ht.put("key1", "value1");
-        ht.put("key1", "value2");
+        ht.put(key, value);
 
-        Assertions.assertEquals("value1", ht.get("key1"));
+        if (key.equals("key1")) Assertions.assertEquals(value, ht.get("key1"));
+        else Assertions.assertNull(ht.get("key1"));
     }
 
-    @org.junit.jupiter.api.Test
-    void drop() {
+    @ParameterizedTest
+    @CsvSource({"key", "key1", "3"}) //3 da colisión (spoiler: se va rallar)
+    void drop(String key) {
         HashTable ht = new HashTable();
 
-        ht.put("key1", "value1");
-        ht.drop("key1");
+        ht.put(key, "value1");
+        ht.put("key2", "value");
 
-        Assertions.assertEquals(null, ht.get("key1"));
+        System.out.println(ht.toString());
+        ht.drop(key);
+
+        System.out.println(ht.toString());
+        Assertions.assertNotEquals("", ht.toString());
 
     }
 }

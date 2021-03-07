@@ -37,7 +37,7 @@ public class HashTable {
         else {
             HashEntry temp = entries[hash];
             while(temp.next != null)
-                temp = temp.next;
+                temp = temp.next; //no suma items?
 
             temp.next = hashEntry;
             hashEntry.prev = temp;
