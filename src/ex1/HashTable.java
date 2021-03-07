@@ -33,14 +33,22 @@ public class HashTable {
 
         if(entries[hash] == null) {
             entries[hash] = hashEntry;
+
+            ITEMS++; //  CAMBIO!!
         }
         else {
             HashEntry temp = entries[hash];
-            while(temp.next != null)
-                temp = temp.next; //no suma items?
+            if (key.equals(temp.key)){
+                entries[hash] = hashEntry;
+            }
+            else{
+                while(temp.next != null)
+                    temp = temp.next;
+                temp.next = hashEntry;
+                hashEntry.prev = temp;
 
-            temp.next = hashEntry;
-            hashEntry.prev = temp;
+            }
+            ITEMS++;
         }
     }
 
@@ -75,11 +83,17 @@ public class HashTable {
             while( !temp.key.equals(key))
                 temp = temp.next;
 
-            if(temp.prev == null) entries[hash] = null;             //esborrar element únic (no col·lissió)
-            else{
-                if(temp.next != null) temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
-                temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
+            if(temp.prev == null && temp.next == null) {
+                entries[hash] = null;
+                ITEMS --; //esborrar element únic (no col·lissió)
             }
+            else{
+                if(temp.next != null)
+                    temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
+                if(temp.prev != null)
+                 temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
+            }
+
         }
     }
 

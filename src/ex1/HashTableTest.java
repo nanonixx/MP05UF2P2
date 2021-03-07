@@ -17,9 +17,11 @@ class HashTableTest {
             ht.put("key"+i, "value"+i);
         }
 
+        ht.drop("key0");
+
         System.out.println(ht.toString());
 
-        Assertions.assertEquals(n, ht.count());
+        Assertions.assertEquals(n-1, ht.count());
 
     }
 
