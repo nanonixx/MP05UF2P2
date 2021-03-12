@@ -1,4 +1,4 @@
-package ex1;
+package ex2;
 
 // Original source code: https://gist.github.com/amadamala/3cdd53cb5a6b1c1df540981ab0245479
 // Modified by Fernando Porrino Serrano for academic purposes.
@@ -11,7 +11,33 @@ import java.util.ArrayList;
  */
 public class HashTable {
     private int SIZE = 16;
+
+    public void setSIZE(int SIZE) {
+        this.SIZE = SIZE;
+    }
+
+    public void setITEMS(int ITEMS) {
+        this.ITEMS = ITEMS;
+    }
+
+    public void setEntries(HashEntry[] entries) {
+        this.entries = entries;
+    }
+
     private int ITEMS = 0;
+
+    public int getSIZE() {
+        return SIZE;
+    }
+
+    public int getITEMS() {
+        return ITEMS;
+    }
+
+    public HashEntry[] getEntries() {
+        return entries;
+    }
+
     private HashEntry[] entries = new HashEntry[SIZE];
 
     public int count(){
@@ -34,7 +60,6 @@ public class HashTable {
         if(entries[hash] == null) {
             entries[hash] = hashEntry;
 
-            ITEMS++; //  CAMBIO!!
         }
         else {
             HashEntry temp = entries[hash];
@@ -48,8 +73,8 @@ public class HashTable {
                 hashEntry.prev = temp;
 
             }
-            ITEMS++;
         }
+        ITEMS++; //  CAMBIO!!
     }
 
     /**
@@ -90,18 +115,8 @@ public class HashTable {
             else{
                 if(temp.next != null)
                     temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
-
                 if(temp.prev != null)
                  temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
-
-                
-                if (temp.next == null)
-                    temp.prev = null;
-
-                if (temp.prev == null){
-                    temp = temp.next;
-                    temp.prev = null;
-                }
                 ITEMS --;
             }
 

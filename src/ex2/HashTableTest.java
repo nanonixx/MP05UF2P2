@@ -1,10 +1,9 @@
-package ex1;
+package ex2;
 
+import ex1.HashTable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HashTableTest {
 
@@ -12,7 +11,7 @@ class HashTableTest {
     @CsvSource({"0", "1", "2", "15"})
     void count(int n) {
 
-        HashTable ht = new HashTable();
+        ex1.HashTable ht = new ex1.HashTable();
         for (int i = 0; i < n; i++) {
             ht.put("key"+i, "value"+i);
         }
@@ -28,7 +27,7 @@ class HashTableTest {
 
     @org.junit.jupiter.api.Test
     void size() {
-        HashTable ht = new HashTable();
+        ex1.HashTable ht = new ex1.HashTable();
 //      pues da 16
         for (int i = 0; i < 30; i++) {
             ht.put("key"+i, "value"+i);
@@ -41,7 +40,7 @@ class HashTableTest {
     @ParameterizedTest
     @CsvSource({"key1, value1", "key2, value2", "key3, value3"})
     void put(String key, String value) {
-        HashTable ht = new HashTable();
+        ex1.HashTable ht = new ex1.HashTable();
         ht.put("key1", "value");
 
         ht.put(key, value);
@@ -55,7 +54,7 @@ class HashTableTest {
     @ParameterizedTest
     @CsvSource({"key, value", "key1, value1", "key2, value"})
     void get(String key, String value) {
-        HashTable ht = new HashTable();
+        ex1.HashTable ht = new ex1.HashTable();
 
         ht.put(key, value);
 
@@ -66,8 +65,7 @@ class HashTableTest {
     @ParameterizedTest
     @CsvSource({"key", "key1", "3"}) //3 da colisión (spoiler: se va rallar)
     void drop(String key) {
-        HashTable ht = new HashTable();
-        ht.getCollisionsForKey("key2");
+        ex1.HashTable ht = new HashTable();
 
         ht.put(key, "value1");
         ht.put("key2", "value");
@@ -76,25 +74,7 @@ class HashTableTest {
         ht.drop(key);
 
         System.out.println(ht.toString());
-        ht.drop("key3"); //no debe dar nullpointer
-        System.out.println(ht.toString());
-
         Assertions.assertNotEquals("", ht.toString());
-
-    }
-
-    @ParameterizedTest
-    @CsvSource({"key", "key1", "3"})
-    void getNull(String key){
-        HashTable ht = new HashTable();
-
-        ht.put(key, "value");
-        ht.put(key, "value2");
-        System.out.println(ht.toString());
-        ht.drop(key);
-        System.out.println(ht.toString());
-        Assertions.assertNull(ht.get(key));
-
 
     }
 }
